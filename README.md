@@ -1,4 +1,4 @@
-# claims_processor_llm_poc
+# Claims Processor LLM POC
 
 POC project to automate processing of claim documents to reduce manual effort and improve consistency
 
