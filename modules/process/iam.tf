@@ -6,12 +6,12 @@ resource "aws_iam_policy" "lambda_s3_dynamo" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid = "S3Read"
+        Sid    = "S3Read"
         Effect = "Allow"
         Action = [
           "s3:GetObject",
           "s3:GetObjectVersion",
-          "s3:ListBucket"
+          "s3:ListBucket",
         ]
         Resource = [
           var.s3_bucket_arn,
@@ -19,7 +19,7 @@ resource "aws_iam_policy" "lambda_s3_dynamo" {
         ]
       },
       {
-        Sid = "DynamoDBWrite"
+        Sid    = "DynamoDBWrite"
         Effect = "Allow"
         Action = [
           "dynamodb:PutItem",
@@ -28,6 +28,17 @@ resource "aws_iam_policy" "lambda_s3_dynamo" {
           "dynamodb:Query"
         ]
         Resource = var.dynamodb_table_arn
+      },
+      {
+        Sid    = "SQSReadWrite"
+        Effect = "Allow"
+        Action = [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+          "sqs:ChangeMessageVisibility"
+        ]
+        Resource = aws_sqs_queue.queue.arn
       }
     ]
   })

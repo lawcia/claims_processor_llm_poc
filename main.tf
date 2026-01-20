@@ -25,6 +25,7 @@ module "process" {
   s3_bucket_name      = module.s3.bucket_name
   s3_bucket_arn       = module.s3.bucket_arn
   lambda_name         = "${var.env}-process-claim"
+  queue_name          = "${var.env}-claims"
 
   depends_on = [module.s3, module.dynamodb]
 }
