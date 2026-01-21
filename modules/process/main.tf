@@ -5,6 +5,7 @@ module "process_claim_function" {
   function_name = var.lambda_name
   handler       = "index.handler"
   runtime       = "python3.14"
+  timeout       = 120
 
   source_path = {
     path           = "${path.root}/src/functions/process-claim"
@@ -15,9 +16,9 @@ module "process_claim_function" {
 
   environment_variables = {
 
-    DYNAMODB_TABLE = "${var.dynamodb_table_name}"
-    S3_BUCKET      = "${var.s3_bucket_arn}"
-
+    METADATA_TABLE_NAME   = "${var.dynamodb_table_name}"
+    CLAIMS_BUCKET_NAME    = "${var.s3_bucket_name}"
+    INFERENCE_PROFILE_ARN = "${var.inference_profile_arn}"
   }
 }
 

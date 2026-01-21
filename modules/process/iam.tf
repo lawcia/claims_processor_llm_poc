@@ -39,6 +39,25 @@ resource "aws_iam_policy" "lambda_s3_dynamo" {
           "sqs:ChangeMessageVisibility"
         ]
         Resource = aws_sqs_queue.queue.arn
+      },
+      {
+        Sid    = "BedrockInvoke"
+        Effect = "Allow"
+        Action = [
+          "bedrock:InvokeModel",
+          "bedrock:InvokeModelWithResponseStream",
+          "bedrock:ListFoundationModels"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "AwsMarketPlace"
+        Effect = "Allow"
+        Action = [
+          "aws-marketplace:ViewSubscriptions",
+          "aws-marketplace:Subscribe"
+        ]
+        Resource = "*"
       }
     ]
   })

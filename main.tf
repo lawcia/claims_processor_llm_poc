@@ -2,6 +2,8 @@ provider "aws" {
   region = var.region
 }
 
+data "aws_caller_identity" "current" {}
+
 module "s3" {
   source      = "./modules/s3"
   bucket_name = "${var.env}-claims-4238d320-5725-4410-98ba-afcbe02d5d80"
@@ -19,13 +21,15 @@ module "user_pool" {
 }
 
 module "process" {
-  source              = "./modules/process"
-  dynamodb_table_name = module.dynamodb.table_name
-  dynamodb_table_arn  = module.dynamodb.table_arn
-  s3_bucket_name      = module.s3.bucket_name
-  s3_bucket_arn       = module.s3.bucket_arn
-  lambda_name         = "${var.env}-process-claim"
-  queue_name          = "${var.env}-claims"
+  source                = "./modules/process"
+  dynamodb_table_name   = module.dynamodb.table_name
+  dynamodb_table_arn    = module.dynamodb.table_arn
+  s3_bucket_name        = module.s3.bucket_name
+  s3_bucket_arn         = module.s3.bucket_arn
+  lambda_name           = "${var.env}-process-claim"
+  queue_name            = "${var.env}-claims"
+  inference_profile_arn = "arn:aws:bedrock:${var.region}:${data.aws_caller_identity.current.account_id}:inference-profile/${var.bedrock_model_name}"
+  model_arn             = "arn:aws:bedrock:${var.region}::foundation-model/${var.bedrock_model_name}"
 
   depends_on = [module.s3, module.dynamodb]
 }

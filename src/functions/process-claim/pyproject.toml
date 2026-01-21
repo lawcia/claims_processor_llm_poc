@@ -3,8 +3,10 @@ name = "process-claim"
 version = "0.1.0"
 description = ""
 authors = []
-requires-python = ">=3.14"
+requires-python = ">=3.14,<4.0.0"
 dependencies = [
+    "aws-lambda-powertools (>=3.24.0,<4.0.0)",
+    "aws-xray-sdk (>=2.15.0,<3.0.0)"
 ]
 
 

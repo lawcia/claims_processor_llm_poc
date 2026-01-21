@@ -22,3 +22,11 @@ variable "queue_name" {
   type = string
 }
 
+variable "inference_profile_arn" {
+  type = string
+}
+
+variable "model_arn" {
+  type = string
+}
+
